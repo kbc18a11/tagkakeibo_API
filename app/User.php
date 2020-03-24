@@ -2,10 +2,13 @@
 
 namespace App;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Validator;
+
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -39,6 +42,16 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     *
+     * @var array
+     */
+    private $rules = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ];
+
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -56,5 +69,16 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * バリデーションの検証
+     * @param array
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public static function validator(array $array)
+    {
+        # code...
+        return Validator::make($array, $this->rules);
     }
 }
