@@ -42,10 +42,10 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     *
+     * バリデーションの条件
      * @var array
      */
-    private $rules = [
+    private static $rules = [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -79,6 +79,6 @@ class User extends Authenticatable implements JWTSubject
     public static function validator(array $array)
     {
         # code...
-        return Validator::make($array, $this->rules);
+        return Validator::make($array, User::$rules);
     }
 }

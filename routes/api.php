@@ -14,8 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['api']], function () {
+    //ユーザー登録
+    Route::post('/createuser', 'UsersController@create');
+
+    //トップページ
+    Route::get('/', function () {
+        return response()->json('go_top');
+    })->name('login');
+
+    //認証必須
+    Route::group(['middleware' => ['jwt.auth']], function () {
+        Route::post('/login', 'Auth\AuthController@login');
+        Route::post('/logout', 'Auth\AuthController@logout');
+        Route::post('/refresh', 'Auth\AuthController@refresh');
+        Route::post('/me', 'Auth\AuthController@me');
+    });
 });
 
 Route::group([
@@ -24,9 +38,4 @@ Route::group([
     'prefix' => 'auth'
 
 ], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
 });

@@ -19,34 +19,7 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    /**
-     * user create
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function createuser(Request $request)
-    {
-        # code...
-        $param[] = [
-            'createResult' => true,
-            'userinfo' => null,
-        ];
 
-        //バリデーションの確認
-        $validationResult =  User::validator($request->all());
-
-        //バリデーションの結果が駄目か？
-        if ($validationResult->fails()) {
-            # code...
-            $param['createResult'] = false;
-            $param['error'] = $validationResult->messages();
-            return json_encode($param);
-        }
-
-        User::created($request->all());
-
-        return json_encode($param);
-    }
 
 
     /**
