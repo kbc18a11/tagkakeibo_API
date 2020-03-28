@@ -18,6 +18,9 @@ Route::group(['middleware' => ['api']], function () {
     //ユーザー登録
     Route::post('/createuser', 'UsersController@create');
 
+    //ログイン
+    Route::post('/login', 'Auth\AuthController@login');
+
     //トップページ
     Route::get('/', function () {
         return response()->json('go_top');
@@ -25,7 +28,6 @@ Route::group(['middleware' => ['api']], function () {
 
     //認証必須
     Route::group(['middleware' => ['jwt.auth']], function () {
-        Route::post('/login', 'Auth\AuthController@login');
         Route::post('/logout', 'Auth\AuthController@logout');
         Route::post('/refresh', 'Auth\AuthController@refresh');
         Route::post('/me', 'Auth\AuthController@me');
