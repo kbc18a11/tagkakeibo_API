@@ -15,7 +15,6 @@ class AddColumnUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('icon');
         });
     }
 
