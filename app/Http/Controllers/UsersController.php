@@ -44,13 +44,5 @@ class UsersController extends Controller
         return response()->json($param);
     }
 
-    /**
-     * user update
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request)
-    {
-        # code...
-    }
+
 }
