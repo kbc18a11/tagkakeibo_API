@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['api']], function () {
     //ユーザー登録
     Route::post('/createuser', 'UsersController@create');
+    //ユーザー情報の更新
+    Route::post('/updateuser', 'UsersController@update');
 
     //ログイン
     Route::post('/login', 'Auth\AuthController@login');

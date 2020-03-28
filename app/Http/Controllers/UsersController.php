@@ -37,9 +37,20 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'icon' => 'dentaku_syoumen_small.png',
         ];
         User::create($createparam);
 
         return response()->json($param);
+    }
+
+    /**
+     * user update
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request)
+    {
+        # code...
     }
 }
