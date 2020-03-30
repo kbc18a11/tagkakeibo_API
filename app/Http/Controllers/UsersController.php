@@ -22,7 +22,7 @@ class UsersController extends Controller
         ];
 
         //バリデーションの検証
-        $validationResult =  User::validator($request->all());
+        $validationResult =  User::createvalidator($request->all());
 
         //バリデーションの結果が駄目か？
         if ($validationResult->fails()) {
@@ -37,8 +37,9 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'icon' => 'dentaku_syoumen_small.png',
+            'icon' => 'default_icon.png',
         ];
+
         User::create($createparam);
 
         return response()->json($param);
@@ -52,13 +53,12 @@ class UsersController extends Controller
     public function update(Request $request)
     {
         # code...
-        # code...
         $param = [
             'createResult' => true,
         ];
 
         //バリデーションの検証
-        $validationResult =  User::validator($request->all());
+        $validationResult =  User::updatevalidator($request->all());
 
         //バリデーションの結果が駄目か？
         if ($validationResult->fails()) {
@@ -68,14 +68,17 @@ class UsersController extends Controller
             return response()->json($param);
         }
 
+        //画像の名前を取り出す
+        $iconName = $request->file('icon')->getClientOriginalName();
+
         //ユーザー登録
         $updateparam = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'icon' => 'dentaku_syoumen_small.png',
+            'icon' => $iconName,
         ];
-        User::create($updateparam);
+        User::updated($updateparam);
 
         return response()->json($param);
     }

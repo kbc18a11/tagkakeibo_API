@@ -20,7 +20,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','icon'
+        'name', 'email', 'password', 'icon'
     ];
 
     /**
@@ -42,13 +42,24 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * バリデーションの条件
+     * 初期登録のバリデーションの条件
      * @var array
      */
-    private static $rules = [
+    private static $createrules = [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ];
+
+    /**
+     * 更新のバリデーションの条件
+     * @var array
+     */
+    private static $updaterules = [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', ''],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'icon' => ['required', 'image'],
     ];
 
     /**
@@ -72,13 +83,24 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * バリデーションの検証
+     * 初期登録のバリデーションの検証
      * @param array
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public static function validator(array $array)
+    public static function createvalidator(array $array)
     {
         # code...
-        return Validator::make($array, User::$rules);
+        return Validator::make($array, User::$createrules);
+    }
+
+    /**
+     * 更新のバリデーションの検証
+     * @param array
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public static function updatevalidator(array $array)
+    {
+        # code...
+        return Validator::make($array, User::$updaterules);
     }
 }
