@@ -55,7 +55,8 @@ class UsersController extends Controller
     {
         # code...
         $param = [
-            'createResult' => true,
+            'updateResult' => true,
+            'usreInfo' => null
         ];
 
         //バリデーションの検証
@@ -82,9 +83,11 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
             'icon' => $iconName,
         ];
+        $user = User::find($request->id);
+        $user->fill($updateparam)->save();
         User::updated($updateparam);
 
-
+        $param['usreInfo'] = $updateparam;
 
         return response()->json($param);
     }
