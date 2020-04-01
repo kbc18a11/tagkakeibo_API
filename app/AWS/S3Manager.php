@@ -20,7 +20,20 @@ class S3Manager implements AWSManager
     }
 
     /***
-     * S3にファイル保存
+     * S3にファイルが存在するのかを検証、存在すればtrue,存在しなければfalse
+     * @param string $path ファイルのパス
+     * @return bool
+     */
+    public function isFile(string $path):bool
+    {
+        //ファイルは存在するか？
+        if (Storage::disk('s3')->exists($path))return true;
+
+        return false;
+    }
+
+    /***
+     * S3にファイル保存し、保存したファイルのパスを返す
      * @param $flie
      * @return string
      */
