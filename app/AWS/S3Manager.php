@@ -10,6 +10,8 @@ class S3Manager implements AWSManager
 {
     private $folderpath;
 
+    private $s3Disk;
+
     /***
      * S3Manager constructor.
      * @param string $folderpath
@@ -17,6 +19,7 @@ class S3Manager implements AWSManager
     public function __construct(string $folderpath)
     {
         $this->folderpath = $folderpath;
+        $this->s3Disk = Storage::disk('s3');
     }
 
     /***
@@ -24,10 +27,10 @@ class S3Manager implements AWSManager
      * @param string $path ファイルのパス
      * @return bool
      */
-    public function isFile(string $path):bool
+    public function isFile(string $path): bool
     {
         //ファイルは存在するか？
-        if (Storage::disk('s3')->exists($path))return true;
+        if ($this->s3Disk->exists($path)) return true;
 
         return false;
     }
@@ -37,14 +40,21 @@ class S3Manager implements AWSManager
      * @param $flie
      * @return string
      */
-    public function filUpload($flie):string
+    public function filUpload($flie): string
     {
         //S3にファイルを保存
-        $path = Storage::disk('s3')->putFile($this->folderpath, $flie, 'public');
+        $path = $this->s3Disk->putFile($this->folderpath, $flie, 'public');
 
-        //S3の保存したもののパスを取得
-        $file_path = Storage::disk('s3')->url($path);
-
-        return $file_path;
+        return $path;
     }
+
+    /***
+     * ファイルを削除
+     * @param string $path
+     */
+    public function fileDelete(string $path): void
+    {
+        $this->s3Disk->delete($path);
+    }
+
 }
