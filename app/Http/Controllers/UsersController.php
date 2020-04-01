@@ -70,11 +70,20 @@ class UsersController extends Controller
             return response()->json($param);
         }
 
-        //アイコン画像の保存を開始
+        //対象のユーザーデータを取り出し
+        $user = User::find($request->id);
+
         $s3 = new S3Manager('icon');
 
-        //画像の名前を取り出す
+        //既存のユーザーアイコンは存在しているか？
+        if ($s3->isFile($user->icon)){
+            //既存のアイコンを削除
+            $s3->fileDelete($user->icon);
+        }
+
+        //アップロードして、画像の名前を取り出す
         $iconName = $s3->filUpload($request->file('icon'));;
+
 
         //ユーザー登録
         $updateparam = [
@@ -83,7 +92,6 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
             'icon' => $iconName,
         ];
-        $user = User::find($request->id);
         $user->fill($updateparam)->save();
         User::updated($updateparam);
 
