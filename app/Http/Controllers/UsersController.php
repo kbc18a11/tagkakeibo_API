@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use App\AWS\S3Manager;
 
 class UsersController extends Controller
 {
@@ -68,8 +69,11 @@ class UsersController extends Controller
             return response()->json($param);
         }
 
+        //アイコン画像の保存を開始
+        $s3 = new S3Manager('icon');
+
         //画像の名前を取り出す
-        $iconName = $request->file('icon')->getClientOriginalName();
+        $iconName = $s3->filUpload($request->file('icon'));;
 
         //ユーザー登録
         $updateparam = [
@@ -79,6 +83,8 @@ class UsersController extends Controller
             'icon' => $iconName,
         ];
         User::updated($updateparam);
+
+
 
         return response()->json($param);
     }
