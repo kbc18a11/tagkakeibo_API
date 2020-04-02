@@ -38,7 +38,7 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'icon' => 'default_icon.png',
+            'icon' => 'icon/defaultIcons/default_icon.png',
         ];
 
         User::create($createparam);
@@ -75,8 +75,8 @@ class UsersController extends Controller
 
         $s3 = new S3Manager('icon');
 
-        //既存のユーザーアイコンは存在しているか？
-        if ($s3->isFile($user->icon)){
+        //デフォルトのアイコンじゃなく、既存のユーザーアイコンは存在しているか？
+        if ($user->icon !== 'icon/defaultIcons/default_icon.png' &&$s3->isFile($user->icon)){
             //既存のアイコンを削除
             $s3->fileDelete($user->icon);
         }
