@@ -20,8 +20,6 @@ class AuthController extends Controller
     }
 
 
-
-
     /**
      * Get a JWT via given credentials.
      *
@@ -73,7 +71,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
