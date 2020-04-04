@@ -81,6 +81,7 @@ class UsersController extends Controller
             $s3->fileDelete($user->icon);
         }
 
+
         //アップロードして、画像の名前を取り出す
         $iconName = $s3->filUpload($request->file('icon'));;
 
