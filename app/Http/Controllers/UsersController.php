@@ -65,7 +65,7 @@ class UsersController extends Controller
         //バリデーションの結果が駄目か？
         if ($validationResult->fails()) {
             # code...
-            $param['createResult'] = false;
+            $param['updateResult'] = false;
             $param['error'] = $validationResult->messages();
             return response()->json($param);
         }
