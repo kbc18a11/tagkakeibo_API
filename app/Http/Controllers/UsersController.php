@@ -23,7 +23,7 @@ class UsersController extends Controller
         ];
 
         //バリデーションの検証
-        $validationResult =  User::createvalidator($request->all());
+        $validationResult = User::createvalidator($request->all());
 
         //バリデーションの結果が駄目か？
         if ($validationResult->fails()) {
@@ -60,7 +60,7 @@ class UsersController extends Controller
         ];
 
         //バリデーションの検証
-        $validationResult =  User::updatevalidator($request->all());
+        $validationResult = User::updatevalidator($request->all());
 
         //バリデーションの結果が駄目か？
         if ($validationResult->fails()) {
@@ -76,7 +76,7 @@ class UsersController extends Controller
         $s3 = new S3Manager('icon');
 
         //デフォルトのアイコンじゃなく、既存のユーザーアイコンは存在しているか？
-        if ($user->icon !== 'icon/defaultIcons/default_icon.png' &&$s3->isFile($user->icon)){
+        if ($user->icon !== 'icon/defaultIcons/default_icon.png' && $s3->isFile($user->icon)) {
             //既存のアイコンを削除
             $s3->fileDelete($user->icon);
         }
@@ -88,6 +88,7 @@ class UsersController extends Controller
 
         //ユーザー登録
         $updateparam = [
+            'id' => $request->id,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -96,7 +97,7 @@ class UsersController extends Controller
         $user->fill($updateparam)->save();
         User::updated($updateparam);
 
-        $param['usreInfo'] = $updateparam;
+        $param['userInfo'] = $updateparam;
 
         return response()->json($param);
     }
