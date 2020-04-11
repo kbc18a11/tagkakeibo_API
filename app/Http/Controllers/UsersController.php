@@ -86,7 +86,7 @@ class UsersController extends Controller
         $iconName = $s3->filUpload($request->file('icon'));;
 
 
-        //ユーザー登録
+        //ユーザー更新
         $updateparam = [
             'id' => $request->id,
             'name' => $request->name,
@@ -95,7 +95,6 @@ class UsersController extends Controller
             'icon' => $iconName,
         ];
         $user->fill($updateparam)->save();
-        User::updated($updateparam);
 
         $param['userInfo'] = $updateparam;
 
