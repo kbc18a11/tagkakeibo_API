@@ -56,7 +56,7 @@ class UsersController extends Controller
         # code...
         $param = [
             'updateResult' => true,
-            'usreInfo' => null
+            'userInfo' => null
         ];
 
         //バリデーションの検証
