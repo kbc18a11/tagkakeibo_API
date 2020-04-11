@@ -42,7 +42,7 @@ class TagController extends Controller
 
         //タグ登録
         $createparam = [
-            'user_id' => $request->user_id,
+            'user_id' => auth()->id(),
             'name' => $request->name,
             'profit_type' => $request->profit_type,
             'comment' => $request->comment
@@ -68,12 +68,12 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request)
     {
         //
+
     }
 
     /**

@@ -24,7 +24,6 @@ class Tag extends Model
      * @var array
      */
     private static $createrules = [
-        'user_id' => ['required', 'integer','exists:users,id'],
         'name' => ['required', 'string', 'max:255'],
         'profit_type' => ['required', 'integer','between:-1,1'],
     ];
