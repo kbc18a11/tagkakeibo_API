@@ -21,7 +21,6 @@ class CreateTagsTable extends Migration
             $table->integer('profit_type'); //損(-1)資(0)益(1)
             $table->string('comment', 255)->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
 
             //*********************************
