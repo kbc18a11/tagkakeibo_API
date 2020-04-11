@@ -2,60 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Tag;
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        //
+    }
+
+    /**
+     * タグ作成
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         //
+        $param = [
+            'createResult' => true,
+        ];
+        //バリデーションの検証
+        $validationResult = Tag::createvalidator($request->all());
+
+        //バリデーションの結果が駄目か？
+        if ($validationResult->fails()) {
+            # code...
+            $param['createResult'] = false;
+            $param['error'] = $validationResult->messages();
+            return response()->json($param);
+        }
+
+        //タグ登録
+        $createparam = [
+            'user_id' => $request->user_id,
+            'name' => $request->name,
+            'profit_type' => $request->profit_type,
+            'comment' => $request->comment
+        ];
+        Tag::create($createparam);
+
+
+        return response()->json($param);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param \App\Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function show(Tag $tag)
     {
         //
     }
@@ -64,10 +68,10 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param \App\Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag)
     {
         //
     }
@@ -75,10 +79,10 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param \App\Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
         //
     }
