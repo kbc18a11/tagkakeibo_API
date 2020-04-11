@@ -110,11 +110,26 @@ class TagController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Tag $tag
+     * @param \App\int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(int $id)
     {
         //
+        $param = [
+            'deleteResult' => true,
+        ];
+
+        $tag = Tag::find($id);
+        //指定したidのタグは存在するか？ && 指定したタグのuser_idとユーザーのidが一致しないか？
+        if ($tag && !$tag->user_idCheck(auth()->id())) {
+            $param['deleteResult'] = false;
+            $param['error'] = '更新できないタグを更新しようとしています';
+            return response()->json($param);
+        }
+
+        $tag->delete();
+
+        return $param;
     }
 }
