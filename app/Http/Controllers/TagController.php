@@ -18,7 +18,7 @@ class TagController extends Controller
     }
 
     /**
-     * タグ作成
+     * タグの新規登録
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
