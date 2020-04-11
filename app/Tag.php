@@ -29,6 +29,15 @@ class Tag extends Model
     ];
 
     /**
+     * 更新のバリデーションの条件
+     * @var array
+     */
+    private static $updaterules = [
+        'name' => ['required', 'string', 'max:255'],
+        'profit_type' => ['required', 'integer','between:-1,1'],
+    ];
+
+    /**
      * 初期登録のバリデーションの検証
      * @param array
      * @return \Illuminate\Contracts\Validation\Validator
@@ -37,5 +46,26 @@ class Tag extends Model
     {
         # code...
         return Validator::make($array, Tag::$createrules);
+    }
+
+    /**
+     * 更新のバリデーションの検証
+     * @param array
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public static function updatevalidator(array $array)
+    {
+        # code...
+        return Validator::make($array, Tag::$updaterules);
+    }
+
+    /**
+     * 対象のタグと比較するユーザidが同じか？
+     * @param int $id //ユーザid
+     * @return bool
+     */
+    public function user_idCheck(int $id):bool
+    {
+        return $this->user_id === $id;
     }
 }
