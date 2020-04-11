@@ -18,7 +18,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->string('name', 255);
-            $table->integer('profit_type'); //損(-1)益(1)
+            $table->integer('profit_type'); //損(-1)資(0)益(1)
             $table->string('comment', 255);
             $table->timestamps();
             $table->softDeletes();
