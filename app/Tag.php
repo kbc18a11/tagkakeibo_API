@@ -26,6 +26,7 @@ class Tag extends Model
     private static $createrules = [
         'name' => ['required', 'string', 'max:255'],
         'profit_type' => ['required', 'integer','between:-1,1'],
+        'comment' => ['max:255']
     ];
 
     /**
@@ -35,6 +36,7 @@ class Tag extends Model
     private static $updaterules = [
         'name' => ['required', 'string', 'max:255'],
         'profit_type' => ['required', 'integer','between:-1,1'],
+        'comment' => ['max:255']
     ];
 
     /**
