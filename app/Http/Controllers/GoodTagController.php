@@ -13,7 +13,7 @@ class GoodTagController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function store(Request $request)
@@ -33,11 +33,20 @@ class GoodTagController extends Controller
             return response()->json($param);
         }
 
-        //いいね！登録
+        //登録する値
         $createparam = [
             'user_id' => auth()->id(),
             'tag_id' => $request->tag_id
         ];
+
+        $goodtag = new GoodTag();
+        //すでにいいねしているか？
+        if ($goodtag->isGood($createparam['user_id'], $createparam['tag_id'])) {
+            $param['createResult'] = false;
+            return response()->json($param);
+        }
+
+        //いいね！登録
         GoodTag::create($createparam);
 
         return response()->json($param);

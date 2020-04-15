@@ -35,4 +35,14 @@ class GoodTag extends Model
         return Validator::make($array, GoodTag::$createrules);
     }
 
+    /**
+     * 既にいいねしてるか同課の確認
+     * @param Int $user_id
+     * @param Int $tag_id
+     * @return bool
+     */
+    public function isGood(Int $user_id, Int $tag_id)
+    {
+        return (bool)$this->where('user_id', $user_id)->where('tag_id', $tag_id)->first();
+    }
 }
