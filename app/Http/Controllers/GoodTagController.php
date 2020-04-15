@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
 use Illuminate\Http\Request;
 use App\GoodTag;
 
@@ -61,5 +60,18 @@ class GoodTagController extends Controller
     public function destroy($id)
     {
         //
+        $param = [
+            'deleteResult' => true,
+        ];
+
+        $good = GoodTag::find($id);
+        //対象の'いいね'は存在するか？ || リクエストしたユーザーと対象の'いいね'のuser_idは一致するか？
+        if (!$good || !$good->user_idCheck(auth()->id())) {
+            $param['deleteResult'] = false;
+            $param['error'] = '取り消しができません';
+            return response()->json($param);
+        }
+
+        
     }
 }

@@ -45,4 +45,14 @@ class GoodTag extends Model
     {
         return (bool)$this->where('user_id', $user_id)->where('tag_id', $tag_id)->first();
     }
+
+    /**
+     * 対象のタグと比較するユーザidが同じか？
+     * @param int $id //ユーザid
+     * @return bool
+     */
+    public function user_idCheck(int $id):bool
+    {
+        return $this->user_id === $id;
+    }
 }
