@@ -18,6 +18,8 @@ Route::group(['middleware' => ['api']], function () {
     //ユーザー登録
     Route::post('/createuser', 'UsersController@create');
 
+    //認証なしでも利用可能なtag関係のメソッド
+    Route::resource('tag', 'TagController', ['only' => ['index']]);
 
     //ログイン
     Route::post('/login', 'Auth\AuthController@login');
@@ -38,5 +40,10 @@ Route::group(['middleware' => ['api']], function () {
 
         //ユーザー情報の更新
         Route::post('/updateuser', 'UsersController@update');
+
+        //認証必要なｔag関係のメソッド
+        Route::resource('tag', 'TagController', ['only' => ['show', 'update', 'store', 'destroy']]);
+
+        Route::resource('goodTag', 'GoodTagController');
     });
 });
