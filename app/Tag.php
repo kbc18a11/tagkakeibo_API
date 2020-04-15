@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use App\GoodTag;
 
 class Tag extends Model
 {
@@ -69,5 +70,14 @@ class Tag extends Model
     public function user_idCheck(int $id):bool
     {
         return $this->user_id === $id;
+    }
+
+    /**
+     * idが一致する'いいね'を削除する
+     * @return int
+     */
+    public function goodTagDeletes()
+    {
+        return GoodTag::where('tag_id',$this->id)->delete();
     }
 }
