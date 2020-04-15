@@ -72,6 +72,9 @@ class GoodTagController extends Controller
             return response()->json($param);
         }
 
-        
+        //いいねを取り消し
+        $good->delete();
+
+        return response()->json($param);
     }
 }
