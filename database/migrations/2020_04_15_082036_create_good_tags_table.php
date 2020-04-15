@@ -12,12 +12,11 @@
                  */
                 public function up()
                 {
-                    Schema::create("goodTags", function (Blueprint $table) {
+                    Schema::create("good_tags", function (Blueprint $table) {
 						$table->increments('id');
 						$table->bigInteger('tag_id')->unsigned();
 						$table->bigInteger('user_id')->unsigned();
 						$table->timestamps();
-						$table->softDeletes();
 
 						$table->foreign("tag_id")->references("id")->on("tags");
 						$table->foreign("user_id")->references("id")->on("users");
@@ -45,6 +44,7 @@
                  */
                 public function down()
                 {
-                    Schema::dropIfExists("goodTags");
+                    Schema::dropIfExists("good_tags");
+
                 }
             }
