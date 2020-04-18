@@ -15,6 +15,12 @@ class TagController extends Controller
     public function index(Request $request)
     {
         //
+        $keyword = $request->keyword;
+        if ($keyword){
+
+        }
+
+        return response()->json(tag::getTagsAll());
     }
 
     /**
