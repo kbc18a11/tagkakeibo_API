@@ -16,10 +16,11 @@ class TagController extends Controller
     {
         //
         $keyword = $request->keyword;
+        //検索キーワードは存在するか？
         if ($keyword){
-
+            return response()->json(tag::getKeywordSearch($keyword));
         }
-
+        //検索キーワードが存在しない場合
         return response()->json(tag::getTagsAll());
     }
 
