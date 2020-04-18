@@ -204,7 +204,65 @@ class Tag extends Model
                 tags.profit_type
             ORDER BY
                 tag_id';
-        DB::enableQueryLog();
         return DB::select($_SQL, ['%' . $keyword . '%', '%' . $keyword . '%']);
+    }
+
+    public static function getUserTag(int $user_id)
+    {
+        //実行SQL
+        $_SQL = '#いいねされているもの
+                SELECT
+                tags.id AS tag_id,
+                tags.name AS tag_name,
+                tags.comment AS tag_comment,
+                tags.profit_type AS tag_profit_type,
+                users.name AS user_name,
+                COUNT(*) AS good
+            FROM
+                tags,
+                users,
+                good_tags
+            WHERE
+                tags.user_id = users.id
+            AND tags.id = good_tags.tag_id
+            AND tags.user_id = ?
+            GROUP BY
+                tags.id,
+                tags.name,
+                users.name,
+                tags.comment,
+                tags.profit_type
+            UNION
+            #いいねされてないもの
+            SELECT
+                tags.id AS tag_id,
+                tags.name AS tag_name,
+                tags.comment AS tag_comment,
+                tags.profit_type AS tag_profit_type,
+                users.name AS user_name,
+                0 as good
+            FROM
+                tags,
+                users
+            WHERE
+                tags.user_id = users.id
+            AND tags.user_id = ?
+            AND NOT EXISTS(
+                    SELECT
+                        *
+                    FROM
+                        good_tags
+                    WHERE
+                        tags.id = good_tags.tag_id
+                )
+            GROUP BY
+                tags.id,
+                tags.name,
+                users.name,
+                tags.comment,
+                tags.profit_type
+            ORDER BY
+                tag_id';
+        return DB::select($_SQL, [$user_id,$user_id]);
     }
 }

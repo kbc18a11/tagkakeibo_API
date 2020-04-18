@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tag;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -63,12 +64,18 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Tag $tag
+     * @param int $user_id
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show(int $user_id)
     {
         //
+        //対象のユーザーは存在しないのか？
+        if (!\App\User::find($user_id)){
+            return response()->json(null);
+        }
+
+        return response()->json(tag::getUserTag($user_id));
     }
 
     /**
