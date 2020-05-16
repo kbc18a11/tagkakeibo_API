@@ -103,7 +103,7 @@ class TagController extends Controller
 
         $tag = Tag::find($id);
         //指定したidのタグは存在するか？ && 指定したタグのuser_idとユーザーのidが一致しないか？
-        if ($tag && !$tag->user_idCheck(auth()->id())) {
+        if (!$tag || !$tag->user_idCheck(auth()->id())) {
             $param['updateResult'] = false;
             $param['error'] = '更新できないタグを更新しようとしています';
             return response()->json($param);
